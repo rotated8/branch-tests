@@ -3,9 +3,14 @@ jobs:
     build:
         docker:
             - image: cimg/base:latest
+
         steps:
             - checkout
 
             - run:
                 name: Check for 'master' branch
-                command: [[ -z "$(git branch --all --list master */master)" ]]
+                command: |
+                    if [[ -n "$(git branch --all --list master */master)" ]]; then
+                        echo "A branch named 'master' was found. Please remove it."
+                    fi
+                    [[ -z "$(git branch --all --list master */master)" ]]
